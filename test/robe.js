@@ -5,6 +5,9 @@
 // install problems
 // https://github.com/Automattic/monk/issues/114
 
+// npm WARN mongoskin@1.4.13 requires a peer of mongodb@~1.4 but none was installed.
+// npm i mongodb 1.4
+
 var co = require('co'),
   Robe = require('robe'),
 	debug = require('debug')('robe');

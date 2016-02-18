@@ -7,3 +7,7 @@ DEBUG=* node test/mongorito.js
 echo
 echo "--------- robe"
 DEBUG=* node test/robe.js
+
+echo
+echo "--------- typescript"
+DEBUG=* node test/typescript.js

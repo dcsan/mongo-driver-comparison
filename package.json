@@ -17,7 +17,7 @@
     "ejs": "^2.4.1",
     "express": "^4.13.4",
     "jade": "^1.11.0",
-    "mongodb": "^1.4.40",
+    "mongodb": "^2.1.0",
     "mongodb-next": "^0.8.0",
     "mongorito": "^1.4.6",
     "monk": "^1.0.1",
