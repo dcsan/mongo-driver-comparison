@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+echo
+echo "--------- mongorito"
+DEBUG=* node test/mongorito.js
+
+echo
+echo "--------- robe"
+DEBUG=* node test/robe.js
