@@ -5,10 +5,16 @@
 const MongoClient = require("mongodb").MongoClient;
 const assert = require("assert");
 
+let debugNpm = require("debug");
+let debug = debugNpm('official');
+
+let dbConn;
+
 let AppConfig = {
   mongoUri: "mongodb://localhost:27017/mongo-drivers",
   // db: any
 };
+
 
 // http://stackoverflow.com/questions/33450722/check-if-document-exists-in-mongodb-using-es7-async-await
 
@@ -31,38 +37,50 @@ let AppConfig = {
 // });
 
 async function dbConnect() {
-  AppConfig["db"] = await MongoClient.connect(AppConfig.mongoUri);
+  dbConn = await MongoClient.connect(AppConfig.mongoUri);
 }
 
 async function add(item) {
-  let collection = db.collection("story");
-  let res = (await collection.insertOne({test: 1}));
+  debug('add');
+  let collection = dbConn.collection("Stories");
+  debug('coll', collection);
+  let res = (await collection.insertOne(item));
   assert.equal(1, res.insertedCount);
-  // let res = await collection.insert(item);
-
-  // var res = await db.collection("inserts").insertOne({a:1});
-
   return res;
 }
 
-async function userExistsInDB(email, password) {
-    try {
-        let collection = db.collection("users");
-        let userCount = (await collection.find(
-            {
-                email: email,
-                password: password
-            }).limit(1).count());
-        return userCount > 0;
-    } finally {
-        db.close();
-    }
+async function find(item) {
+  debug('find', item);
+  let collection = dbConn.collection("Stories");
+  let res = (await collection.findOne(item));
+  debug('res', res);
+  return res;
 }
 
+// async function userExistsInDB(email, password) {
+//     try {
+//         let collection = db.collection("users");
+//         let userCount = (await collection.find(
+//             {
+//                 email: email,
+//                 password: password
+//             }).limit(1).count());
+//         return userCount > 0;
+//     } finally {
+//         db.close();
+//     }
+// }
+
 async function testRun() {
+  console.log("connecting");
   await dbConnect();
-  let res = await add({});
-  console.log("add", res);
+  console.log("adding");
+  let res1 = await add({a:1});
+  console.log("res1", res1);
+
+  let res2 = await find({a:1});
+  console.log("res2", res2);
+
 }
 
 testRun();

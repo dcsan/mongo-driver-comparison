@@ -9,42 +9,45 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 const MongoClient = require("mongodb").MongoClient;
 const assert = require("assert");
+let debugNpm = require("debug");
+let debug = debugNpm('official');
+let dbConn;
 let AppConfig = {
     mongoUri: "mongodb://localhost:27017/mongo-drivers",
 };
 function dbConnect() {
     return __awaiter(this, void 0, void 0, function* () {
-        AppConfig["db"] = yield MongoClient.connect(AppConfig.mongoUri);
+        dbConn = yield MongoClient.connect(AppConfig.mongoUri);
     });
 }
 function add(item) {
     return __awaiter(this, void 0, void 0, function* () {
-        let collection = db.collection("story");
-        let res = (yield collection.insertOne({ test: 1 }));
+        debug('add');
+        let collection = dbConn.collection("Stories");
+        debug('coll', collection);
+        let res = (yield collection.insertOne(item));
         assert.equal(1, res.insertedCount);
         return res;
     });
 }
-function userExistsInDB(email, password) {
+function find(item) {
     return __awaiter(this, void 0, void 0, function* () {
-        try {
-            let collection = db.collection("users");
-            let userCount = (yield collection.find({
-                email: email,
-                password: password
-            }).limit(1).count());
-            return userCount > 0;
-        }
-        finally {
-            db.close();
-        }
+        debug('find', item);
+        let collection = dbConn.collection("Stories");
+        let res = (yield collection.findOne(item));
+        debug('res', res);
+        return res;
     });
 }
 function testRun() {
     return __awaiter(this, void 0, void 0, function* () {
+        console.log("connecting");
         yield dbConnect();
-        let res = yield add({});
-        console.log("add", res);
+        console.log("adding");
+        let res1 = yield add({ a: 1 });
+        console.log("res1", res1);
+        let res2 = yield find({ a: 1 });
+        console.log("res2", res2);
     });
 }
 testRun();

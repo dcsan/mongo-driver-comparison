@@ -1,13 +1,18 @@
 #!/usr/bin/env bash
 
-echo
-echo "--------- mongorito"
-DEBUG=* node test/mongorito.js
+#
+# echo
+# echo "--------- mongorito"
+# DEBUG=* node test/mongorito.js
+#
+# echo
+# echo "--------- robe"
+# DEBUG=* node test/robe.js
+#
+# echo
 
-echo
-echo "--------- robe"
-DEBUG=* node test/robe.js
+# echo "--------- typescript"
+# DEBUG=* node test/typescript-await-demo.js
 
-echo
-echo "--------- typescript"
-DEBUG=* node test/typescript.js
+echo "--------- official mongo"
+DEBUG=* node test/official.js
